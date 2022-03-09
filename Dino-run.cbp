@@ -31,6 +31,14 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="LTexture.cpp" />
+		<Unit filename="LTexture.h" />
+		<Unit filename="LTimer.cpp" />
+		<Unit filename="LTimer.h" />
+		<Unit filename="Motion.cpp" />
+		<Unit filename="Motion.h" />
+		<Unit filename="common_functions.cpp" />
+		<Unit filename="common_functions.h" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>

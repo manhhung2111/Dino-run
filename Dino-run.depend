@@ -1,0 +1,50 @@
+# depslib dependency file v1.0
+1646814356 source:d:\c++\github\dino-run\main.cpp
+	"LTexture.h"
+	"common_functions.h"
+	"LTimer.h"
+	"Motion.h"
+
+1646749948 source:d:\c++\github\dino-run\base_object.cpp
+	"common_functions.h"
+	"Base_object.h"
+
+1646791727 d:\c++\github\dino-run\base_object.h
+	"common_functions.h"
+
+1646794358 d:\c++\github\dino-run\common_functions.h
+	<SDL.h>
+	<bits/stdc++.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
+	<sstream>
+
+1646745385 source:d:\c++\github\dino-run\common_functions.cpp
+	"common_functions.h"
+
+1646794074 source:d:\c++\github\dino-run\imp_timer.cpp
+	"common_functions.h"
+	"Imp_Timer.h"
+
+1646788724 d:\c++\github\dino-run\imp_timer.h
+
+1646795076 source:d:\c++\github\dino-run\ltexture.cpp
+	"common_functions.h"
+	"LTexture.h"
+
+1646806833 d:\c++\github\dino-run\ltexture.h
+	"common_functions.h"
+
+1646796157 source:d:\c++\github\dino-run\ltimer.cpp
+	"LTimer.h"
+	"common_functions.h"
+
+1646796115 d:\c++\github\dino-run\ltimer.h
+
+1646814430 d:\c++\github\dino-run\motion.h
+
+1646814519 source:d:\c++\github\dino-run\motion.cpp
+	"common_functions.h"
+	"Motion.h"
+
