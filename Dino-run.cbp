@@ -37,6 +37,8 @@
 		<Unit filename="LTimer.h" />
 		<Unit filename="Motion.cpp" />
 		<Unit filename="Motion.h" />
+		<Unit filename="Threats.cpp" />
+		<Unit filename="Threats.h" />
 		<Unit filename="common_functions.cpp" />
 		<Unit filename="common_functions.h" />
 		<Unit filename="main.cpp" />

@@ -2,6 +2,7 @@
 #include"common_functions.h"
 #include"LTimer.h"
 #include"Motion.h"
+#include"Threats.h"
 
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
@@ -17,8 +18,14 @@ Mix_Chunk *gdeath = NULL;
 // Image
 LTexture gDino;
 LTexture gDino_background;
+LTexture gThreat;
+
+// Score
 LTexture gScore;
 LTexture hiscore;
+
+// Threat
+Threat tree;
 
 bool init();
 bool loadMedia();
@@ -33,25 +40,28 @@ int main(int argc, char* argv[])
             cout << "Failed to load media!" << endl;
         }else{
             bool quit = false;
+
             SDL_Event e;
-            Dino character;
-            SDL_Color textColor = {0, 0, 0, 255};
+            Dino character; // character
+            Threat catus; // threat
+            SDL_Color textColor = {0, 0, 0, 255}; // score text color
             LTimer timer;
             stringstream timeText;
+            SDL_Rect threat;
             while(!quit){
+                threat = catus.obstacle();
                 while(SDL_PollEvent(&e) != 0){
-                    if(e.type == SDL_QUIT){
+                    if(e.type == SDL_QUIT || character.check_collision(threat)){
                         quit = true;
                     }
                     else if(e.type == SDL_KEYDOWN && e.key.repeat == 0){
+                        if(Mix_PlayingMusic() == 0) {Mix_PlayMusic(gMusic, -1);}
                         if(e.key.keysym.sym == SDLK_SPACE){
                             Mix_PlayChannel(-1, gjump, 0);
                             character.setJump_press(e);
                         }
 						//Start/stop
 						if( e.key.keysym.sym == SDLK_s ){
-                            if(Mix_PlayingMusic() == 0) {Mix_PlayMusic(gMusic, -1);}
-
 							if( timer.isStarted() ) timer.stop();
 							else timer.start();
 						}
@@ -82,23 +92,14 @@ int main(int argc, char* argv[])
 
 
                 gDino_background.render(0, 0);
-
                 character.render();
+                catus.render();
+                catus.handle_move();
+
                 //gDino.render(0, 250);
                 gScore.render(700, 30);
                 hiscore.render(720, 30);
                 SDL_RenderPresent(gRenderer);
-                /*
-                int real_imp_time = fps_timer.get_ticks();
-                int time_one_frame = 1000/FRAME_PER_SECOND; //ms
-
-                if(real_imp_time < time_one_frame){
-                    int delay_time = time_one_frame - real_imp_time;
-                    SDL_Delay(delay_time);
-                }
-                */
-
-
             }
 
         }
@@ -169,6 +170,12 @@ bool loadMedia()
     if(!gDino_background.load_media_from_file("img\\Dino-background.png")){
         cout << "Could not load Dino background"<< endl;
         success =false;
+    }
+
+    // Load threat
+    if(!gThreat.load_media_from_file("img\\Threats.png")){
+        cout << "Could not load Threats" << endl;
+        success = false;
     }
 
     // Load character
@@ -278,4 +285,8 @@ bool LTexture::load_from_rendered_text(string textureText, SDL_Color textColor)
 }
 void Dino::render(){
     gDino.render(mPosX, mPosY);
+}
+
+void Threat::render(){
+    gThreat.render(mPosX, mPosY);
 }

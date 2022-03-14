@@ -6,12 +6,11 @@
 class LTexture
 {
 	public:
-		LTexture();
-		~LTexture();
+		LTexture(); // constructor
+		~LTexture(); // destructor
 
-
+        // load media
 		bool load_media_from_file(string path );
-
 		bool load_from_rendered_text(string textureText, SDL_Color textColor );
 
 		void free();

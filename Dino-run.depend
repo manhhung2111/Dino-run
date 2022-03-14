@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1646814356 source:d:\c++\github\dino-run\main.cpp
+1647253485 source:d:\c++\github\dino-run\main.cpp
 	"LTexture.h"
 	"common_functions.h"
 	"LTimer.h"
 	"Motion.h"
+	"Threats.h"
 
 1646749948 source:d:\c++\github\dino-run\base_object.cpp
 	"common_functions.h"
@@ -33,7 +34,7 @@
 	"common_functions.h"
 	"LTexture.h"
 
-1646806833 d:\c++\github\dino-run\ltexture.h
+1647253267 d:\c++\github\dino-run\ltexture.h
 	"common_functions.h"
 
 1646796157 source:d:\c++\github\dino-run\ltimer.cpp
@@ -42,9 +43,15 @@
 
 1646796115 d:\c++\github\dino-run\ltimer.h
 
-1646814430 d:\c++\github\dino-run\motion.h
+1647253309 d:\c++\github\dino-run\motion.h
 
-1646814519 source:d:\c++\github\dino-run\motion.cpp
+1647253334 source:d:\c++\github\dino-run\motion.cpp
 	"common_functions.h"
 	"Motion.h"
+
+1647253345 d:\c++\github\dino-run\threats.h
+	"common_functions.h"
+
+1647253485 source:d:\c++\github\dino-run\threats.cpp
+	"Threats.h"
 
