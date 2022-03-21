@@ -415,7 +415,6 @@ void render_before_and_while_play()
     if(!is_start_game){
         Start_game.render(300, 150);
         exit_game.render(300, 180);
-
     }
 
 	if(is_start_game){
