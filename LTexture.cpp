@@ -1,8 +1,9 @@
-#include"common_functions.h"
+#include"Functions.h"
 #include"LTexture.h"
 
 
 LTexture::LTexture(){
+    // Initialize
     mTexture = NULL;
     mWidth = 0;
     mHeight = 0;
@@ -29,3 +30,7 @@ int LTexture::getWidth(){
     return mWidth;
 }
 
+SDL_Texture* LTexture::GetTexture()
+{
+    return mTexture;
+}

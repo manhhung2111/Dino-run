@@ -3,33 +3,35 @@
 
 class LTimer
 {
-    public:
-		//Initializes variables
-		LTimer();
+public:
+    //Initialize
+    LTimer();
 
-		//The various clock actions
-		void start();
-		void stop();
-		void pause();
-		void unpause();
+    //Actions
+    void start();
+    void stop();
+    void pause();
+    void unpause();
 
-		//Gets the timer's time
-		int getTicks();
+    //Gets the timer's time
+    int getTicks();
 
-		//Checks the status of the timer
-		bool isStarted();
-		bool isPaused();
+    //Checks the status of the timer
+    bool isStarted();
+    bool isPaused();
 
-    private:
-		//The clock time when the timer started
-		int mStartTicks;
+    void gameOver();
 
-		//The ticks stored when the timer was paused
-		int mPausedTicks;
+private:
+    //The clock time when the timer started
+    int mStartTicks;
 
-		//The timer status
-		bool mPaused;
-		bool mStarted;
+    //The ticks stored when the timer was paused
+    int mPausedTicks;
+
+    //The timer status
+    bool mPaused;
+    bool mStarted;
 };
 
 

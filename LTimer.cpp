@@ -1,5 +1,5 @@
 #include"LTimer.h"
-#include"common_functions.h"
+#include"Functions.h"
 LTimer::LTimer()
 {
     //Initialize the variables
@@ -100,4 +100,8 @@ bool LTimer::isPaused()
 {
 	//Timer is running and paused
     return mPaused && mStarted;
+}
+
+void LTimer::gameOver(){
+    pause();
 }

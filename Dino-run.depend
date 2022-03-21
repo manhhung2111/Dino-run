@@ -1,9 +1,9 @@
 # depslib dependency file v1.0
-1647253485 source:d:\c++\github\dino-run\main.cpp
+1647613227 source:d:\c++\github\dino-run\main.cpp
 	"LTexture.h"
-	"common_functions.h"
+	"Functions.h"
 	"LTimer.h"
-	"Motion.h"
+	"Character.h"
 	"Threats.h"
 
 1646749948 source:d:\c++\github\dino-run\base_object.cpp
@@ -13,7 +13,7 @@
 1646791727 d:\c++\github\dino-run\base_object.h
 	"common_functions.h"
 
-1646794358 d:\c++\github\dino-run\common_functions.h
+1647476747 d:\c++\github\dino-run\common_functions.h
 	<SDL.h>
 	<bits/stdc++.h>
 	<SDL_image.h>
@@ -21,8 +21,11 @@
 	<SDL_ttf.h>
 	<sstream>
 
-1646745385 source:d:\c++\github\dino-run\common_functions.cpp
+1647394863 source:d:\c++\github\dino-run\common_functions.cpp
 	"common_functions.h"
+	"LTexture.h"
+	"Motion.h"
+	"Threats.h"
 
 1646794074 source:d:\c++\github\dino-run\imp_timer.cpp
 	"common_functions.h"
@@ -30,28 +33,56 @@
 
 1646788724 d:\c++\github\dino-run\imp_timer.h
 
-1646795076 source:d:\c++\github\dino-run\ltexture.cpp
-	"common_functions.h"
+1647611944 source:d:\c++\github\dino-run\ltexture.cpp
+	"Functions.h"
 	"LTexture.h"
 
-1647253267 d:\c++\github\dino-run\ltexture.h
-	"common_functions.h"
+1647611908 d:\c++\github\dino-run\ltexture.h
+	"Functions.h"
 
-1646796157 source:d:\c++\github\dino-run\ltimer.cpp
+1647515438 source:d:\c++\github\dino-run\ltimer.cpp
 	"LTimer.h"
-	"common_functions.h"
+	"Functions.h"
 
-1646796115 d:\c++\github\dino-run\ltimer.h
+1647521460 d:\c++\github\dino-run\ltimer.h
 
-1647253309 d:\c++\github\dino-run\motion.h
+1647426707 d:\c++\github\dino-run\motion.h
 
-1647253334 source:d:\c++\github\dino-run\motion.cpp
+1647426743 source:d:\c++\github\dino-run\motion.cpp
 	"common_functions.h"
 	"Motion.h"
+	"Threats.h"
 
-1647253345 d:\c++\github\dino-run\threats.h
-	"common_functions.h"
+1647575488 d:\c++\github\dino-run\threats.h
+	"Functions.h"
 
-1647253485 source:d:\c++\github\dino-run\threats.cpp
+1647584891 source:d:\c++\github\dino-run\threats.cpp
+	"Threats.h"
+
+1647479022 source:d:\c++\github\sdl_tutorial\animation.cpp
+	<SDL.h>
+	<SDL_image.h>
+	<stdio.h>
+	<string>
+
+1647521603 d:\c++\github\dino-run\functions.h
+	<SDL.h>
+	<bits/stdc++.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
+	<sstream>
+
+1647515424 source:d:\c++\github\dino-run\functions.cpp
+	"Functions.h"
+	"LTexture.h"
+	"Character.h"
+	"Threats.h"
+
+1647585013 d:\c++\github\dino-run\character.h
+
+1647585175 source:d:\c++\github\dino-run\character.cpp
+	"Functions.h"
+	"Character.h"
 	"Threats.h"
 

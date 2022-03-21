@@ -31,16 +31,16 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Character.cpp" />
+		<Unit filename="Character.h" />
+		<Unit filename="Functions.cpp" />
+		<Unit filename="Functions.h" />
 		<Unit filename="LTexture.cpp" />
 		<Unit filename="LTexture.h" />
 		<Unit filename="LTimer.cpp" />
 		<Unit filename="LTimer.h" />
-		<Unit filename="Motion.cpp" />
-		<Unit filename="Motion.h" />
 		<Unit filename="Threats.cpp" />
 		<Unit filename="Threats.h" />
-		<Unit filename="common_functions.cpp" />
-		<Unit filename="common_functions.h" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>
