@@ -1,6 +1,8 @@
 #ifndef THREATS_H_
 #define THREATS_H_
+
 #include"Functions.h"
+#include"LTexture.h"
 
 #define THREAT_1_WIDTH 40
 #define THREAT_1_HEIGHT 40
@@ -17,8 +19,8 @@ public:
 
     void move();
     void pause(SDL_Event e);
-    void render_1();
-    void render_2();
+    void render_1(LTexture gThreat1, SDL_Renderer* gRenderer);
+    void render_2(LTexture gThreat2, SDL_Renderer* gRenderer);
 
     void reset();
     void gameOver();

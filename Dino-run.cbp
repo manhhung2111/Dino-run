@@ -39,6 +39,8 @@
 		<Unit filename="LTexture.h" />
 		<Unit filename="LTimer.cpp" />
 		<Unit filename="LTimer.h" />
+		<Unit filename="SDL_utilities.cpp" />
+		<Unit filename="SDL_utilities.h" />
 		<Unit filename="Threats.cpp" />
 		<Unit filename="Threats.h" />
 		<Unit filename="main.cpp" />

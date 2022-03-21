@@ -2,6 +2,7 @@
 #define L_TEXTURE_H_
 
 #include "Functions.h"
+using namespace std;
 
 class LTexture
 {
@@ -10,14 +11,14 @@ public:
     ~LTexture(); // destructor
 
     // load media
-    bool load_media_from_file(string path );
-    bool load_from_rendered_text(string textureText, SDL_Color textColor );
+    bool load_media_from_file(string path, SDL_Renderer* gRenderer);
+    bool load_from_rendered_text(string textureText, SDL_Color textColor, SDL_Renderer *gRenderer, TTF_Font *gFont);
 
     void free();
 
     //Renders texture at given point
-    void render( int x, int y, SDL_Rect* clip = NULL);
-    SDL_Texture* GetTexture();
+    void render( int x, int y,SDL_Renderer* gRenderer);
+
     //Gets texture dimensions
     int getWidth();
     int getHeight();

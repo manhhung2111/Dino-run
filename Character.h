@@ -1,5 +1,6 @@
 #ifndef CHARACTER_H_
 #define CHARACTER_H_
+#include"LTexture.h"
 
 static const int Dino_jump = 100;
 static const int Dino_height = 39;
@@ -15,7 +16,7 @@ public:
 
     void pause(SDL_Event e);
     void jump();
-    void render();
+    void render(LTexture gDino, SDL_Renderer *gRenderer);
 
     void reset();
     void gameOver();

@@ -28,6 +28,10 @@ void Character::handle_event( SDL_Event& e )
     }
 }
 
+void Character::render(LTexture gDino, SDL_Renderer *gRenderer){
+    gDino.render(mPosX, mPosY, gRenderer);
+}
+
 void Character::pause(SDL_Event e)
 {
     // pause the character
