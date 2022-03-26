@@ -21,14 +21,12 @@ LTexture::~LTexture(){
     free();
 }
 
-
-
-void LTexture::render(int x, int y, SDL_Renderer* gRenderer){
+void LTexture::render(int x, int y, SDL_Renderer* &gRenderer){
     SDL_Rect renderQuad = {x, y, mWidth, mHeight};
     SDL_RenderCopy(gRenderer, mTexture, NULL, &renderQuad);
 }
 
-bool LTexture::load_media_from_file(string path, SDL_Renderer* gRenderer){
+bool LTexture::load_media_from_file(string path, SDL_Renderer* &gRenderer){
     //free();
     SDL_Texture *newTexture = NULL;
     SDL_Surface *loadedSurface = IMG_Load(path.c_str());
@@ -51,7 +49,7 @@ bool LTexture::load_media_from_file(string path, SDL_Renderer* gRenderer){
     return (mTexture!=NULL);
 }
 
-bool LTexture::load_from_rendered_text(string textureText, SDL_Color textColor, SDL_Renderer *gRenderer, TTF_Font *gFont)
+bool LTexture::load_from_rendered_text(string textureText, SDL_Color textColor, SDL_Renderer* &gRenderer, TTF_Font *&gFont)
 {
     free();
     SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, textureText.c_str(), textColor);

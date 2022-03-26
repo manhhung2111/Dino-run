@@ -9,8 +9,7 @@
 #define THREAT_2_WIDTH 21
 #define THREAT_2_HEIGHT 40
 
-#define RUN_DISTANCE 2
-#define acceleration 1
+#define RUN_DISTANCE 1
 
 class Threat
 {
@@ -19,8 +18,8 @@ public:
 
     void move();
     void pause(SDL_Event e);
-    void render_1(LTexture gThreat1, SDL_Renderer* gRenderer);
-    void render_2(LTexture gThreat2, SDL_Renderer* gRenderer);
+    void render_1(LTexture &gThreat1, SDL_Renderer* &gRenderer);
+    void render_2(LTexture &gThreat2, SDL_Renderer* &gRenderer);
 
     void reset();
     void gameOver();

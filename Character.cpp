@@ -23,12 +23,12 @@ void Character::handle_event( SDL_Event& e )
     if(e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_SPACE){
         if(jumpDirection == 0){
             jumpDirection = -1;
-            mVelY = 2 ;
+            mVelY = 1 ;
         }
     }
 }
 
-void Character::render(LTexture gDino, SDL_Renderer *gRenderer){
+void Character::render(LTexture &gDino, SDL_Renderer *&gRenderer){
     gDino.render(mPosX, mPosY, gRenderer);
 }
 

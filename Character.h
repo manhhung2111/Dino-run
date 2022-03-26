@@ -16,7 +16,7 @@ public:
 
     void pause(SDL_Event e);
     void jump();
-    void render(LTexture gDino, SDL_Renderer *gRenderer);
+    void render(LTexture &gDino, SDL_Renderer *&gRenderer);
 
     void reset();
     void gameOver();

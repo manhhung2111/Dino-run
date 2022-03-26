@@ -45,11 +45,11 @@ SDL_Rect Threat::obstacle_2(){
     return res;
 }
 
-void Threat::render_1(LTexture gThreat1, SDL_Renderer *gRenderer){
+void Threat::render_1(LTexture &gThreat1, SDL_Renderer* &gRenderer){
     gThreat1.render(mPosX_1, mPosY_1, gRenderer);
 }
 
-void Threat::render_2(LTexture gThreat2, SDL_Renderer *gRenderer)
+void Threat::render_2(LTexture &gThreat2, SDL_Renderer* &gRenderer)
 {
     gThreat2.render(mPosX_2, mPosY_2, gRenderer);
 }
@@ -63,6 +63,7 @@ void Threat::move()
         mPosX_2 -= RUN_DISTANCE;
         if(mPosX_1 < 0) mPosX_1 = SCREEN_WIDTH; // recreate the threat at the right of the screen
         if(mPosX_2 < 0) mPosX_2 = SCREEN_WIDTH + rand()%50;//  + 500;
+        SDL_Delay(1);
     }else{
         mPosX_1 = mPosX_1; // pause
         mPosX_2 = mPosX_2;
