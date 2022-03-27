@@ -5,20 +5,18 @@
 #include"Threats.h"
 #include"SDL_utilities.h"
 
-const char *WINDOW_TITLE = "Dino run";
-
+// Font and text color
 TTF_Font *gFont = NULL;
-SDL_Color textColor = {0, 0, 0, 255}; // score text color
+SDL_Color textColor = {0, 0, 0, 255}; // black
 
 // Music
 Mix_Music *gMusic = NULL;
-
 // The sound effects that will be used
 Mix_Chunk *gjump = NULL;
 Mix_Chunk *gdeath = NULL;
 
 // Image
-LTexture gDino, gDino_background;
+LTexture gPlayer_jump, gPlayer_background;
 LTexture gThreat1, gThreat2;
 LTexture gPause, gResume;
 
@@ -33,6 +31,11 @@ LTexture exit_game;
 bool is_game_over = false, is_exit = false, is_pause = false;
 bool is_start_game = false, is_timer_start = false, is_music_play = false;
 
+// player animation
+LTexture gPlayer_ground;
+SDL_Rect player_rect;
+int frame_width;
+
 Character character; // character
 Threat catus, tree; // threat
 
@@ -41,12 +44,13 @@ SDL_Rect threat1; // location of threat_1 after each game loop
 SDL_Rect threat2; // location of threat_2 after each game loop
 stringstream timeText; // score
 
-void playAgain(SDL_Event e, SDL_Renderer *&gRenderer);
-void render_before_and_while_play(SDL_Renderer* &gRenderer);
+void playAgain(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &player_position, SDL_Rect &player_rect, int &frame_width, int &frame);
+void render_before_and_while_play(SDL_Renderer* &gRenderer, SDL_Rect &player_position,
+                                 SDL_Rect &player_rect, int &frame_width, int &frame);
 void render_gameover(SDL_Renderer* &gRenderer);
-void handle_keyboard_events(SDL_Event e, SDL_Renderer *&gRenderer);
+void handle_keyboard_events(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &player_position, SDL_Rect &player_rect, int &frame_width, int &frame);
 void update_game();
-void gameLoop(SDL_Event e, SDL_Renderer* &gRenderer);
+void gameLoop(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &player_position, SDL_Rect &player_rect, int &frame_width, int &frame);
 
 
 int main(int argc, char* argv[])
@@ -54,32 +58,33 @@ int main(int argc, char* argv[])
     SDL_Window* gWindow = NULL;
     SDL_Renderer* gRenderer = NULL;
     SDL_Event e;
+    int frame = 0; SDL_Rect player_position;
     srand(time(NULL));
     if(!init(gWindow, gRenderer, WINDOW_TITLE)){
         cout << "Failed to initialize SDL!" << endl;
     }else{
-        if(!loadMedia(gDino, gDino_background, gThreat1, gThreat2, gPause, gResume, gScore, Start_game, game_over, play_again
-                        , exit_game, gMusic, gjump, gdeath, gFont, gRenderer)){
+        if(!loadMedia(gPlayer_jump, gPlayer_background, gThreat1, gThreat2, gPause, gResume, gScore, Start_game, game_over, play_again
+                        , exit_game, gMusic, gjump, gdeath, gFont, gRenderer, gPlayer_ground, player_rect, frame_width)){
             cout << "Failed to load media!" << endl;
         }else{
-            gameLoop(e, gRenderer);
+            gameLoop(e, gRenderer, player_position, player_rect, frame_width, frame);
         }
     }
-    close(gDino, gDino_background, gThreat1, gThreat2, gPause, gResume, gScore, Start_game, game_over, play_again, exit_game
-          , gMusic, gjump, gdeath, gFont, current_score, gWindow, gRenderer);
+    close(gPlayer_jump, gPlayer_background, gThreat1, gThreat2, gPause, gResume, gScore, Start_game, game_over, play_again, exit_game
+          , gMusic, gjump, gdeath, gFont, current_score, gWindow, gRenderer, gPlayer_ground);
     return 0;
 }
-void gameLoop(SDL_Event e, SDL_Renderer *&gRenderer)
+void gameLoop(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &player_position, SDL_Rect &player_rect, int &frame_width, int &frame)
 {
     while(!is_exit){
         update_game();
-        handle_keyboard_events(e, gRenderer);
-        render_before_and_while_play(gRenderer);
+        handle_keyboard_events(e, gRenderer, player_position, player_rect, frame_width, frame);
+        render_before_and_while_play(gRenderer,player_position, player_rect, frame_width, frame);
         render_gameover(gRenderer);
         SDL_RenderPresent(gRenderer);
     }
 }
-void handle_keyboard_events(SDL_Event e, SDL_Renderer *&gRenderer)
+void handle_keyboard_events(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &player_position, SDL_Rect &player_rect, int &frame_width, int &frame)
 {
     while(SDL_PollEvent(&e) != 0){
         if(e.type == SDL_QUIT) is_exit = true;
@@ -91,8 +96,8 @@ void handle_keyboard_events(SDL_Event e, SDL_Renderer *&gRenderer)
                     Mix_PlayMusic(gMusic, -1);
                     is_music_play = true;
                 }
-                if(e.key.keysym.sym == SDLK_SPACE){
-                    Mix_PlayChannel(-1, gjump, 0);
+                if(e.key.keysym.sym == SDLK_SPACE && !is_pause){
+                    if(character.is_on_ground()) Mix_PlayChannel(-1, gjump, 0);
                     character.handle_event(e);
                 }
                 //Start/stop the timer
@@ -117,12 +122,12 @@ void handle_keyboard_events(SDL_Event e, SDL_Renderer *&gRenderer)
                     else timer.pause();
                 }
             }
-            if(is_game_over) playAgain(e, gRenderer);
+            if(is_game_over) playAgain(e, gRenderer, player_position, player_rect, frame_width, frame);
         }
     }
 }
 
-void playAgain(SDL_Event e, SDL_Renderer * &gRenderer){
+void playAgain(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &player_position, SDL_Rect &player_rect, int &frame_width, int &frame){
     if(e.key.keysym.sym == SDLK_r){
         is_start_game = false;
         is_game_over = false;
@@ -135,11 +140,12 @@ void playAgain(SDL_Event e, SDL_Renderer * &gRenderer){
         tree.reset();
 
         timer.stop();
-        gameLoop(e, gRenderer);
+        gameLoop(e, gRenderer, player_position, player_rect, frame_width, frame);
     }else if(e.key.keysym.sym == SDLK_ESCAPE) is_exit = true;
 }
 
-void render_before_and_while_play(SDL_Renderer* &gRenderer)
+void render_before_and_while_play(SDL_Renderer* &gRenderer, SDL_Rect &player_position,
+                                 SDL_Rect &player_rect, int &frame_width, int &frame)
 {
     //Set text to be rendered
     timeText.str("");
@@ -156,23 +162,29 @@ void render_before_and_while_play(SDL_Renderer* &gRenderer)
     SDL_RenderClear(gRenderer);
 
 
-	gDino_background.render(0, 0, gRenderer);
-    character.render(gDino, gRenderer);
+	gPlayer_background.render(0, 0, gRenderer);
+
     catus.render_1(gThreat1, gRenderer);
     tree.render_2(gThreat2, gRenderer);
 
+    if(is_start_game){
+        if(!character.is_on_ground() || is_game_over) character.render_when_jump(gPlayer_jump, gRenderer);
+        else if(!is_game_over)character.render_on_ground(gPlayer_ground, gRenderer, player_position, player_rect, frame_width, frame);
+    }
 
     if(!is_start_game){
         Start_game.render(300, 150, gRenderer);
         exit_game.render(300, 180, gRenderer);
+        character.render_when_jump(gPlayer_jump, gRenderer);
     }
 
 	if(is_start_game){
         if(!is_game_over) {
             catus.move();
             tree.move();
-            if(is_pause) gPause.render(0, 0, gRenderer);
-            else gResume.render(0, 0, gRenderer);
+            if(is_pause) gPause.render(10, 10, gRenderer);
+            else gResume.render(10, 10, gRenderer);
+
         }
         // Render Score
         gScore.render(700, 30, gRenderer);
@@ -211,19 +223,3 @@ void update_game()
         character.jump();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

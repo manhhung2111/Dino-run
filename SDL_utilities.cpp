@@ -21,7 +21,7 @@ bool init(SDL_Window* &gWindow, SDL_Renderer* &gRenderer, const char* WINDOW_TIT
         }else{
             //Set texture filtering to linear
             SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-            gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+            gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
             if(gRenderer == NULL){
                 cout << "Could not create renderer! SDL Error:" << SDL_GetError() << endl;
                 success = false;
@@ -56,32 +56,45 @@ bool init(SDL_Window* &gWindow, SDL_Renderer* &gRenderer, const char* WINDOW_TIT
     return success;
 }
 
-bool loadMedia(LTexture &gDino, LTexture &gDino_background, LTexture &gThreat1, LTexture &gThreat2,
+bool loadMedia(LTexture &gPlayer_jump, LTexture &gPlayer_background, LTexture &gThreat1, LTexture &gThreat2,
                LTexture &gPause, LTexture &gResume, LTexture &gScore, LTexture &Start_game, LTexture &game_over,LTexture &play_again,
-               LTexture &exit_game, Mix_Music *&gMusic, Mix_Chunk *&gjump, Mix_Chunk *&gdeath, TTF_Font *&gFont, SDL_Renderer* &gRenderer)
+               LTexture &exit_game, Mix_Music *&gMusic, Mix_Chunk *&gjump, Mix_Chunk *&gdeath, TTF_Font *&gFont, SDL_Renderer* &gRenderer
+               , LTexture &gPlayer_ground, SDL_Rect &player_rect, int &frame_width)
 {
     bool success = true;
 
-    // Load character
-    if(!gDino.load_media_from_file("img\\Dino.png", gRenderer)){
-        cout << "Could not load Dino" << endl;
+    // Load character animation
+    if(!gPlayer_ground.load_media_from_file("img\\character_animation.png", gRenderer)){
+        cout << "Could not load character animation" << endl;
+        success = false;
+    }else{
+        frame_width = gPlayer_ground.getWidth()/3;
+        player_rect.w = frame_width;
+        player_rect.h = gPlayer_ground.getHeight();
+        player_rect.x = 0;
+        player_rect.y = 0;
+    }
+
+    // Load character when jump
+    if(!gPlayer_jump.load_media_from_file("img\\character.png", gRenderer)){
+        cout << "Could not load character when jump" << endl;
         success = false;
     }
 
     // Load background
-    if(!gDino_background.load_media_from_file("img\\Dino-background.png", gRenderer)){
+    if(!gPlayer_background.load_media_from_file("img\\hills_background.png", gRenderer)){
         cout << "Could not load Dino background" << endl;
         success = false;
     }
 
     // Load threat_1
-    if(!gThreat1.load_media_from_file("img\\Threat_1.png", gRenderer)){
+    if(!gThreat1.load_media_from_file("img\\obstacle_1.png", gRenderer)){
         cout << "Could not load Threats" << endl;
         success = false;
     }
 
     // Load threat_2
-    if(!gThreat2.load_media_from_file("img\\Threat_2.png", gRenderer)){
+    if(!gThreat2.load_media_from_file("img\\obstacle_2.png", gRenderer)){
         cout << "Could not load Threats" << endl;
         success = false;
     }
@@ -142,7 +155,7 @@ bool loadMedia(LTexture &gDino, LTexture &gDino_background, LTexture &gThreat1, 
         success = false;
     }
 
-    gdeath = Mix_LoadWAV("music\\death.wav");
+    gdeath = Mix_LoadWAV("music\\sao_ma_do_duoc.wav");
     if(gdeath == NULL){
         cout << "Failed to load death sound effect! SDL_mixer Error: " << Mix_GetError() << endl;
         success = false;
@@ -151,12 +164,12 @@ bool loadMedia(LTexture &gDino, LTexture &gDino_background, LTexture &gThreat1, 
     return success;
 }
 
-void close(LTexture &gDino, LTexture &gDino_background, LTexture &gThreat1, LTexture &gThreat2,
+void close(LTexture &gDino_jump, LTexture &gDino_background, LTexture &gThreat1, LTexture &gThreat2,
             LTexture &gPause, LTexture &gResume, LTexture &gScore, LTexture &Start_game, LTexture &game_over,
             LTexture &play_again, LTexture &exit_game, Mix_Music *&gMusic, Mix_Chunk *&gjump, Mix_Chunk *&gdeath, TTF_Font *&gFont,
-            LTexture &current_score, SDL_Window *&gWindow, SDL_Renderer* &gRenderer)
+            LTexture &current_score, SDL_Window *&gWindow, SDL_Renderer* &gRenderer, LTexture &gDino_ground)
 {
-    gDino.free(); gDino_background.free();
+    gDino_jump.free(); gDino_ground.free(); gDino_background.free();
     gScore.free(); current_score.free();
     gPause.free(); gResume.free();
     gThreat1.free(); gThreat2.free();

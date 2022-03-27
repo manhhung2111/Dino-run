@@ -2,20 +2,17 @@
 #include"Character.h"
 #include"Threats.h"
 
-
-
 Character::Character(){
     //Initialize
     mVelY = 0;
-
     is_pause = false;
-
-    jumpDirection = 0;
+    jumpDirection = 0; // on the ground
+    // character position
     mPosX = 0;
-    mPosY = 250;
-
-    mCollider.w = Dino_width;
-    mCollider.h = Dino_height;
+    mPosY = ground_level;
+    // Collide box
+    mCollider.w = player_width;
+    mCollider.h = player_height;
 }
 
 void Character::handle_event( SDL_Event& e )
@@ -23,13 +20,42 @@ void Character::handle_event( SDL_Event& e )
     if(e.type == SDL_KEYDOWN && e.key.repeat == 0 && e.key.keysym.sym == SDLK_SPACE){
         if(jumpDirection == 0){
             jumpDirection = -1;
-            mVelY = 1 ;
+            mVelY = 5 ;
         }
     }
 }
 
-void Character::render(LTexture &gDino, SDL_Renderer *&gRenderer){
-    gDino.render(mPosX, mPosY, gRenderer);
+void Character::render_when_jump(LTexture &gPlayer_jump, SDL_Renderer *&gRenderer){
+    gPlayer_jump.render(mPosX, mPosY, gRenderer);
+}
+
+void Character::render_on_ground(LTexture &gPlayer_ground, SDL_Renderer *&gRenderer, SDL_Rect &player_position,
+                                 SDL_Rect &player_rect, int &frame_width, int &frame)
+{
+    player_position.x = 0;
+    player_position.y = ground_level;
+    player_position.w = frame_width;
+    player_position.h = gPlayer_ground.getHeight() ;
+
+    // Render current frame
+    if(!is_pause){
+        frame++;
+        if(FPS/frame == 15)
+        {
+            frame = 0;
+            player_rect.x += frame_width;
+            if(player_rect.x >= gPlayer_ground.getWidth()){
+                player_rect.x = 0;
+            }
+        }
+    }else{
+        player_rect.x = player_rect.x;
+    }
+    SDL_RenderCopy(gRenderer, gPlayer_ground.getTexture(), &player_rect, &player_position);
+}
+
+bool Character::is_on_ground(){
+    return (jumpDirection == 0);
 }
 
 void Character::pause(SDL_Event e)
@@ -41,13 +67,10 @@ void Character::pause(SDL_Event e)
     }
 }
 
-
-
-
 void Character::jump()
 {
     if(jumpDirection == 0) return;
-    if(jumpDirection == -1 && mPosY >= (250-Dino_jump)){
+    if(jumpDirection == -1 && mPosY >= (ground_level-player_jump)){
         if(!is_pause){
             mPosY -= mVelY;
         }else{
@@ -55,28 +78,27 @@ void Character::jump()
         }
 
     }
-    if(mPosY <= (250-Dino_jump)){
+    if(mPosY <= (ground_level-player_jump)){
         jumpDirection = 1;
     }
-    if(jumpDirection == 1 && mPosY <= 250){
+    if(jumpDirection == 1 && mPosY <= ground_level){
         if(!is_pause){
             mPosY += mVelY;
         }else{
             mPosY = mPosY;
         }
     }
-    if (mPosY >= 250) {
+    if (mPosY >= ground_level) {
         jumpDirection = 0;
     }
-
 }
 bool Character::check_collision(SDL_Rect& threat){
     bool is_collide = true;
     // The sides of character
-    int left_dino = mPosX;
-    int right_dino = mPosX + Dino_width;
-    int top_dino = mPosY;
-    int bottom_dino = mPosY + Dino_height;
+    int left_player = mPosX;
+    int right_player = mPosX + player_width;
+    int top_player = mPosY;
+    int bottom_player = mPosY + player_height;
 
     // The sides of threat
     int left_threat = threat.x;
@@ -85,10 +107,10 @@ bool Character::check_collision(SDL_Rect& threat){
     int bottom_threat = threat.y + threat.h;
 
     // Condition when 2 objects collide
-    if(bottom_dino <= top_threat) is_collide = false;
-    if(top_dino >= bottom_threat) is_collide = false;
-    if(right_dino <= left_threat) is_collide = false;
-    if(left_dino >= right_threat) is_collide = false;
+    if(bottom_player <= top_threat) is_collide = false;
+    if(top_player >= bottom_threat) is_collide = false;
+    if(right_player <= left_threat) is_collide = false;
+    if(left_player >= right_threat) is_collide = false;
 
     return is_collide;
 }
@@ -104,9 +126,7 @@ void Character::reset()
     is_pause = false;
     jumpDirection = 0;
     mPosX = 0;
-    mPosY = 250;
-    mCollider.w = Dino_width;
-    mCollider.h = Dino_height;
-
+    mPosY = ground_level;
+    mCollider.w = player_width;
+    mCollider.h = player_height;
 }
-

@@ -10,16 +10,17 @@ public:
     LTexture(); // constructor
     ~LTexture(); // destructor
 
+    void free();
+
     // load media
     bool load_media_from_file(string path, SDL_Renderer* &gRenderer);
     bool load_from_rendered_text(string textureText, SDL_Color textColor, SDL_Renderer* &gRenderer, TTF_Font *&gFont);
-
-    void free();
 
     //Renders texture at given point
     void render( int x, int y,SDL_Renderer* &gRenderer);
 
     //Gets texture dimensions
+    SDL_Texture* getTexture();
     int getWidth();
     int getHeight();
 

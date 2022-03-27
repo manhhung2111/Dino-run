@@ -1,17 +1,18 @@
 #include"Threats.h"
 #include"Functions.h"
 
+
 Threat::Threat()
 {
     // Initialize
     is_pause = false;
     mPosX_1 = SCREEN_WIDTH;
-    mPosY_1 = 250; // ground
+    mPosY_1 = ground_level; // ground
     mWidth_1 = THREAT_1_WIDTH;
     mHeight_1 = THREAT_1_HEIGHT;
 
     mPosX_2 = SCREEN_WIDTH + 300;
-    mPosY_2 = 250;
+    mPosY_2 = ground_level;
     mWidth_2 = THREAT_2_WIDTH;
     mHeight_2 = THREAT_2_HEIGHT;
 }
@@ -61,9 +62,9 @@ void Threat::move()
     if(!is_pause){
         mPosX_1 -= RUN_DISTANCE; //+ acceleration*(timer.getTicks()/10000));//move backward
         mPosX_2 -= RUN_DISTANCE;
-        if(mPosX_1 < 0) mPosX_1 = SCREEN_WIDTH; // recreate the threat at the right of the screen
-        if(mPosX_2 < 0) mPosX_2 = SCREEN_WIDTH + rand()%50;//  + 500;
-        SDL_Delay(1);
+        if(mPosX_1+mWidth_1 < 0) mPosX_1 = SCREEN_WIDTH; // recreate the threat at the right of the screen
+        if(mPosX_2+mWidth_2 < 0) mPosX_2 = SCREEN_WIDTH + rand()%50;//  + 500;
+
     }else{
         mPosX_1 = mPosX_1; // pause
         mPosX_2 = mPosX_2;
@@ -83,12 +84,12 @@ void Threat::reset()
     // Initialize
     is_pause = false;
     mPosX_1 = SCREEN_WIDTH;
-    mPosY_1 = 250; // ground
+    mPosY_1 = ground_level; // ground
     mWidth_1 = THREAT_1_WIDTH;
     mHeight_1 = THREAT_1_HEIGHT;
 
     mPosX_2 = SCREEN_WIDTH + 300;
-    mPosY_2 = 250;
+    mPosY_2 = ground_level;
     mWidth_2 = THREAT_2_WIDTH;
     mHeight_2 = THREAT_2_HEIGHT;
 }

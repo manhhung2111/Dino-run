@@ -8,6 +8,10 @@ LTexture::LTexture(){
     mHeight = 0;
 }
 
+LTexture::~LTexture(){
+    free();
+}
+
 void LTexture::free(){
     if(mTexture != NULL){
         SDL_DestroyTexture(mTexture);
@@ -15,15 +19,6 @@ void LTexture::free(){
         mWidth = 0;
         mHeight = 0;
     }
-}
-
-LTexture::~LTexture(){
-    free();
-}
-
-void LTexture::render(int x, int y, SDL_Renderer* &gRenderer){
-    SDL_Rect renderQuad = {x, y, mWidth, mHeight};
-    SDL_RenderCopy(gRenderer, mTexture, NULL, &renderQuad);
 }
 
 bool LTexture::load_media_from_file(string path, SDL_Renderer* &gRenderer){
@@ -64,6 +59,15 @@ bool LTexture::load_from_rendered_text(string textureText, SDL_Color textColor, 
         SDL_FreeSurface(textSurface);
     }
     return (mTexture!=NULL);
+}
+
+void LTexture::render(int x, int y, SDL_Renderer* &gRenderer){
+    SDL_Rect renderQuad = {x, y, mWidth, mHeight};
+    SDL_RenderCopy(gRenderer, mTexture, NULL, &renderQuad);
+}
+
+SDL_Texture* LTexture::getTexture(){
+    return mTexture;
 }
 
 int LTexture::getHeight(){

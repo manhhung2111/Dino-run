@@ -4,12 +4,12 @@
 #include"Functions.h"
 #include"LTexture.h"
 
-#define THREAT_1_WIDTH 40
-#define THREAT_1_HEIGHT 40
-#define THREAT_2_WIDTH 21
-#define THREAT_2_HEIGHT 40
+#define THREAT_1_WIDTH 83
+#define THREAT_1_HEIGHT 45
+#define THREAT_2_WIDTH 82
+#define THREAT_2_HEIGHT 45
 
-#define RUN_DISTANCE 1
+static const int RUN_DISTANCE = 6;
 
 class Threat
 {
