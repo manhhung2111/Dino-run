@@ -155,7 +155,7 @@ bool loadMedia(LTexture &gPlayer_jump, LTexture &gPlayer_background, LTexture &g
         success = false;
     }
 
-    gdeath = Mix_LoadWAV("music\\sao_ma_do_duoc.wav");
+    gdeath = Mix_LoadWAV("music\\death.wav");
     if(gdeath == NULL){
         cout << "Failed to load death sound effect! SDL_mixer Error: " << Mix_GetError() << endl;
         success = false;

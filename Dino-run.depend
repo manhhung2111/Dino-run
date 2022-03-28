@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1648386554 source:d:\c++\github\dino-run\main.cpp
+1648387588 source:d:\c++\github\dino-run\main.cpp
 	"LTexture.h"
 	"Functions.h"
 	"LTimer.h"
@@ -54,11 +54,11 @@
 	"Motion.h"
 	"Threats.h"
 
-1648385838 d:\c++\github\dino-run\threats.h
+1648390803 d:\c++\github\dino-run\threats.h
 	"Functions.h"
 	"LTexture.h"
 
-1648385994 source:d:\c++\github\dino-run\threats.cpp
+1648387588 source:d:\c++\github\dino-run\threats.cpp
 	"Threats.h"
 	"Functions.h"
 
@@ -81,7 +81,7 @@
 	"Character.h"
 	"Threats.h"
 
-1648385865 d:\c++\github\dino-run\character.h
+1648390873 d:\c++\github\dino-run\character.h
 	"LTexture.h"
 
 1648378976 source:d:\c++\github\dino-run\character.cpp
@@ -89,7 +89,7 @@
 	"Character.h"
 	"Threats.h"
 
-1648385586 source:d:\c++\github\dino-run\sdl_utilities.cpp
+1648391348 source:d:\c++\github\dino-run\sdl_utilities.cpp
 	"SDL_utilities.h"
 	"LTexture.h"
 

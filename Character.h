@@ -4,7 +4,7 @@
 
 static const int player_jump = 110;
 static const int player_height = 45;
-static const int player_width = 45;
+static const int player_width = 32;
 
 class Character
 {

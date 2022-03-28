@@ -4,9 +4,9 @@
 #include"Functions.h"
 #include"LTexture.h"
 
-#define THREAT_1_WIDTH 83
+#define THREAT_1_WIDTH 45
 #define THREAT_1_HEIGHT 45
-#define THREAT_2_WIDTH 82
+#define THREAT_2_WIDTH 64
 #define THREAT_2_HEIGHT 45
 
 static const int RUN_DISTANCE = 6;
@@ -24,8 +24,8 @@ public:
     void reset();
     void gameOver();
 
-    SDL_Rect obstacle_1(); // Get the threat dimension
-    SDL_Rect obstacle_2();
+    SDL_Rect obstacle_1_dimension(); // Get the threat dimension
+    SDL_Rect obstacle_2_dimension();
 private:
     bool is_pause;
     int mPosX_1, mPosY_1;

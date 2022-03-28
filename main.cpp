@@ -37,7 +37,7 @@ SDL_Rect player_rect;
 int frame_width;
 
 Character character; // character
-Threat catus, tree; // threat
+Threat obstacle1, obstacle2; // threat
 
 LTimer timer; // score
 SDL_Rect threat1; // location of threat_1 after each game loop
@@ -114,8 +114,8 @@ void handle_keyboard_events(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &pla
                     is_pause = !is_pause;
 
                     character.pause(e);
-                    catus.pause(e);
-                    tree.pause(e);
+                    obstacle1.pause(e);
+                    obstacle2.pause(e);
 
                     // pause/resume timer
                     if( timer.isPaused() ) timer.unpause();
@@ -136,8 +136,8 @@ void playAgain(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &player_position,
         is_pause = false;
         // reposition
         character.reset();
-        catus.reset();
-        tree.reset();
+        obstacle1.reset();
+        obstacle2.reset();
 
         timer.stop();
         gameLoop(e, gRenderer, player_position, player_rect, frame_width, frame);
@@ -164,8 +164,8 @@ void render_before_and_while_play(SDL_Renderer* &gRenderer, SDL_Rect &player_pos
 
 	gPlayer_background.render(0, 0, gRenderer);
 
-    catus.render_1(gThreat1, gRenderer);
-    tree.render_2(gThreat2, gRenderer);
+    obstacle1.render_1(gThreat1, gRenderer);
+    obstacle2.render_2(gThreat2, gRenderer);
 
     if(is_start_game){
         if(!character.is_on_ground() || is_game_over) character.render_when_jump(gPlayer_jump, gRenderer);
@@ -180,8 +180,8 @@ void render_before_and_while_play(SDL_Renderer* &gRenderer, SDL_Rect &player_pos
 
 	if(is_start_game){
         if(!is_game_over) {
-            catus.move();
-            tree.move();
+            obstacle1.move();
+            obstacle2.move();
             if(is_pause) gPause.render(10, 10, gRenderer);
             else gResume.render(10, 10, gRenderer);
 
@@ -209,8 +209,8 @@ void render_gameover(SDL_Renderer* &gRenderer)
 
         // Stop character, threat, and time
         character.gameOver();
-        catus.gameOver();
-        tree.gameOver();
+        obstacle1.gameOver();
+        obstacle2.gameOver();
         timer.gameOver();
     }
 }
@@ -218,8 +218,8 @@ void render_gameover(SDL_Renderer* &gRenderer)
 void update_game()
 {
     if(!is_game_over){
-        threat1 = catus.obstacle_1(); // update threat position
-        threat2 = tree.obstacle_2();
+        threat1 = obstacle1.obstacle_1_dimension(); // update threat position
+        threat2 = obstacle2.obstacle_2_dimension();
         character.jump();
     }
 }

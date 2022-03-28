@@ -28,7 +28,7 @@ void Threat::pause(SDL_Event e)
     }
 }
 
-SDL_Rect Threat::obstacle_1(){
+SDL_Rect Threat::obstacle_1_dimension(){
     SDL_Rect res;
     res.x = mPosX_1;
     res.y = mPosY_1;
@@ -37,7 +37,7 @@ SDL_Rect Threat::obstacle_1(){
     return res;
 }
 
-SDL_Rect Threat::obstacle_2(){
+SDL_Rect Threat::obstacle_2_dimension(){
     SDL_Rect res;
     res.x = mPosX_2;
     res.y = mPosY_2;
