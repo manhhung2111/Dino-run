@@ -52,7 +52,7 @@ void handle_keyboard_events(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &pla
 void update_game();
 void gameLoop(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &player_position, SDL_Rect &player_rect, int &frame_width, int &frame);
 
-
+int scrolling_offset = 0;
 int main(int argc, char* argv[])
 {
     SDL_Window* gWindow = NULL;
@@ -156,14 +156,19 @@ void render_before_and_while_play(SDL_Renderer* &gRenderer, SDL_Rect &player_pos
     if(!current_score.load_from_rendered_text(timeText.str().c_str(), textColor, gRenderer, gFont)){
         cout << "Unable to render time texture!" << endl;
     }
-
+    if(is_start_game && !is_game_over && !is_pause){
+        scrolling_offset -= 2; // = 0
+        if(scrolling_offset < -gPlayer_background.getWidth()){
+            scrolling_offset = 0;
+        }
+    }
     // Clear screen
     SDL_SetRenderDrawColor(gRenderer, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
     SDL_RenderClear(gRenderer);
 
 
-	gPlayer_background.render(0, 0, gRenderer);
-
+	gPlayer_background.render(scrolling_offset, 0, gRenderer);
+    gPlayer_background.render(scrolling_offset + gPlayer_background.getWidth(), 0, gRenderer);
     obstacle1.render_1(gThreat1, gRenderer);
     obstacle2.render_2(gThreat2, gRenderer);
 

@@ -6,10 +6,11 @@
 
 #define THREAT_1_WIDTH 45
 #define THREAT_1_HEIGHT 45
+
 #define THREAT_2_WIDTH 64
 #define THREAT_2_HEIGHT 45
 
-static const int RUN_DISTANCE = 6;
+static const int RUN_DISTANCE = 5;
 
 class Threat
 {
