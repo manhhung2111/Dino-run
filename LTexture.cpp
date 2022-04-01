@@ -1,19 +1,23 @@
 #include"Functions.h"
 #include"LTexture.h"
 
-LTexture::LTexture(){
+LTexture::LTexture()
+{
     // Initialize
     mTexture = NULL;
     mWidth = 0;
     mHeight = 0;
 }
 
-LTexture::~LTexture(){
+LTexture::~LTexture()
+{
     free();
 }
 
-void LTexture::free(){
-    if(mTexture != NULL){
+void LTexture::free()
+{
+    if(mTexture != NULL)
+    {
         SDL_DestroyTexture(mTexture);
         mTexture = NULL;
         mWidth = 0;
@@ -21,20 +25,23 @@ void LTexture::free(){
     }
 }
 
-bool LTexture::load_media_from_file(string path, SDL_Renderer* &gRenderer){
-    //free();
+bool LTexture::load_media_from_file(string path, SDL_Renderer* &gRenderer)
+{
     SDL_Texture *newTexture = NULL;
     SDL_Surface *loadedSurface = IMG_Load(path.c_str());
-    if(loadedSurface == NULL){
+    if(loadedSurface == NULL)
+    {
         cout << "Could not load image! SDL_image Error: " << IMG_GetError() << endl;
-    }else{
-        // Transparent picture
-        SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
-
+    }
+    else
+    {
         newTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
-        if(newTexture == NULL){
+        if(newTexture == NULL)
+        {
             cout << "Could not create Texture from image! SDL Error: " << SDL_GetError() << endl;
-        }else{
+        }
+        else
+        {
             mWidth = loadedSurface->w;
             mHeight = loadedSurface->h;
         }
@@ -48,11 +55,15 @@ bool LTexture::load_from_rendered_text(string textureText, SDL_Color textColor, 
 {
     free();
     SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, textureText.c_str(), textColor);
-    if(textSurface != NULL){
+    if(textSurface != NULL)
+    {
         mTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
-        if(mTexture == NULL){
+        if(mTexture == NULL)
+        {
             cout << "Unable to create texture from text surface! SDL Error: " << SDL_GetError() << endl;
-        }else{
+        }
+        else
+        {
             mWidth = textSurface->w;
             mHeight = textSurface->h;
         }
@@ -61,20 +72,24 @@ bool LTexture::load_from_rendered_text(string textureText, SDL_Color textColor, 
     return (mTexture!=NULL);
 }
 
-void LTexture::render(int x, int y, SDL_Renderer* &gRenderer){
+void LTexture::render(int x, int y, SDL_Renderer* &gRenderer)
+{
     SDL_Rect renderQuad = {x, y, mWidth, mHeight};
     SDL_RenderCopy(gRenderer, mTexture, NULL, &renderQuad);
 }
 
-SDL_Texture* LTexture::getTexture(){
+SDL_Texture* LTexture::getTexture()
+{
     return mTexture;
 }
 
-int LTexture::getHeight(){
+int LTexture::getHeight()
+{
     return mHeight;
 }
 
-int LTexture::getWidth(){
+int LTexture::getWidth()
+{
     return mWidth;
 }
 

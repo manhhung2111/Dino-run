@@ -10,23 +10,25 @@
 #define THREAT_2_WIDTH 64
 #define THREAT_2_HEIGHT 45
 
-static const int RUN_DISTANCE = 5;
+#define RUN_DISTANCE 5;
 
 class Threat
 {
 public:
     Threat();
 
-    void move();
+    void render_threat_1(LTexture &gThreat1, SDL_Renderer* &gRenderer);
+    void render_threat_2(LTexture &gThreat2, SDL_Renderer* &gRenderer);
+
+    void threat_move();
     void pause(SDL_Event e);
-    void render_1(LTexture &gThreat1, SDL_Renderer* &gRenderer);
-    void render_2(LTexture &gThreat2, SDL_Renderer* &gRenderer);
+
+    SDL_Rect get_obstacle_1_dimension(); // Get threat's dimension
+    SDL_Rect get_obstacle_2_dimension();
 
     void reset();
     void gameOver();
 
-    SDL_Rect obstacle_1_dimension(); // Get the threat dimension
-    SDL_Rect obstacle_2_dimension();
 private:
     bool is_pause;
     int mPosX_1, mPosY_1;

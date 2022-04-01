@@ -43,6 +43,7 @@
 		<Unit filename="SDL_utilities.h" />
 		<Unit filename="Threats.cpp" />
 		<Unit filename="Threats.h" />
+		<Unit filename="best_score.txt" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>

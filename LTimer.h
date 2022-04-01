@@ -34,7 +34,4 @@ private:
     bool mStarted;
 };
 
-
-
-
 #endif // L_TIMER_H_

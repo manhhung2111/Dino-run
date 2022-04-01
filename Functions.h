@@ -7,23 +7,20 @@
 #include<SDL_mixer.h>
 #include<SDL_ttf.h>
 #include<sstream>
-
+#include<fstream>
 
 using namespace std;
 
-//Screen
-static const char *WINDOW_TITLE = "Snowball-Adventure";
+//Screen size
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 400;
 static const int ground_level = 332;
 
-// Color key (transparent image)
-const int COLOR_KEY_R = 255;
-const int COLOR_KEY_G = 255;
-const int COLOR_KEY_B = 255;
+// Render color
 const int RENDER_DRAW_COLOR = 255;
 
-const int FPS = 60;
+// Character animation
+const int FPS = 90;
 
 #endif // FUNCTION_H
 

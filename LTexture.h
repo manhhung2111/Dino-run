@@ -7,13 +7,14 @@ using namespace std;
 class LTexture
 {
 public:
-    LTexture(); // constructor
-    ~LTexture(); // destructor
+    LTexture(); // Constructor
+    ~LTexture(); // Destructor
 
     void free();
 
-    // load media
+    // Load media
     bool load_media_from_file(string path, SDL_Renderer* &gRenderer);
+    // Load texts
     bool load_from_rendered_text(string textureText, SDL_Color textColor, SDL_Renderer* &gRenderer, TTF_Font *&gFont);
 
     //Renders texture at given point
