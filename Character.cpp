@@ -10,7 +10,7 @@ Character::Character()
     jumpDirection = 0; // On the ground
 
     // Character position
-    mPosX = 20;
+    mPosX = 100;
     mPosY = ground_level;
 
     // Collide box
@@ -111,7 +111,7 @@ void Character::render_when_jump(LTexture &gPlayer_jump, SDL_Renderer *&gRendere
 void Character::render_on_ground(LTexture &gPlayer_ground, SDL_Renderer *&gRenderer, SDL_Rect &player_position,
                                  SDL_Rect &player_rect, int &frame_width, int &frame)
 {
-    player_position.x = 20;
+    player_position.x = 100;
     player_position.y = ground_level;
     player_position.w = frame_width;
     player_position.h = gPlayer_ground.getHeight() ;
@@ -160,7 +160,7 @@ void Character::reset()
     mVelY = 0;
     is_pause = false;
     jumpDirection = 0;
-    mPosX = 20;
+    mPosX = 100;
     mPosY = ground_level;
     mCollider.w = player_width;
     mCollider.h = player_height;

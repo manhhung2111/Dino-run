@@ -61,9 +61,9 @@ bool init(SDL_Window* &gWindow, SDL_Renderer* &gRenderer, const char* WINDOW_TIT
 }
 
 bool loadMedia(LTexture &gPlayer_jump, LTexture &gPlayer_background, LTexture &gThreat1, LTexture &gThreat2,
-               LTexture &gPause, LTexture &gResume, LTexture &gScore, LTexture &Start_game, LTexture &game_over,LTexture &play_again,
-               LTexture &exit_game, Mix_Music *&gMusic, Mix_Chunk *&gjump, Mix_Chunk *&gdeath, TTF_Font *&gFont, SDL_Renderer* &gRenderer
-               , LTexture &gPlayer_ground, SDL_Rect &player_rect, int &frame_width, LTexture &gHiscore)
+               LTexture &gPause, LTexture &gResume, LTexture &gScore, LTexture &game_over,LTexture &play_again,
+               LTexture &exit_game, Mix_Music *&gMusic, Mix_Chunk *&gjump, Mix_Chunk *&gdeath, TTF_Font *&gFont, SDL_Renderer* &gRenderer, LTexture &gPlayer_ground,
+               SDL_Rect &player_rect, int &frame_width, LTexture &gHiscore, LTexture &gRocket1, LTexture &gRocket2, LTexture &gWarning, LTexture &how_to_play)
 {
     bool success = true;
 
@@ -99,14 +99,40 @@ bool loadMedia(LTexture &gPlayer_jump, LTexture &gPlayer_background, LTexture &g
     // Load threat_1
     if(!gThreat1.load_media_from_file("img\\obstacle_1.png", gRenderer))
     {
-        cout << "Could not load Threats" << endl;
+        cout << "Could not load Threat 1" << endl;
         success = false;
     }
 
     // Load threat_2
     if(!gThreat2.load_media_from_file("img\\obstacle_2.png", gRenderer))
     {
-        cout << "Could not load Threats" << endl;
+        cout << "Could not load Threat 2" << endl;
+        success = false;
+    }
+    // Load rocket1
+    if(!gRocket1.load_media_from_file("img\\rocket_1.png", gRenderer))
+    {
+        cout << "Could not load Rocket 1" << endl;
+        success = false;
+    }
+    // Load rocket 2
+    if(!gRocket2.load_media_from_file("img\\rocket_2.png", gRenderer))
+    {
+        cout << "Could not load Rocket 2" << endl;
+        success = false;
+    }
+
+    // Load Warning signal
+    if(!gWarning.load_media_from_file("img\\warning_signal.png", gRenderer))
+    {
+        cout << "Could not load Warning Signal!" << endl;
+        success = false;
+    }
+
+    // Load how to play png
+    if(!how_to_play.load_media_from_file("img\\how_to_play.png", gRenderer))
+    {
+        cout << "Could not load How to play png" << endl;
         success = false;
     }
 
@@ -147,26 +173,22 @@ bool loadMedia(LTexture &gPlayer_jump, LTexture &gPlayer_background, LTexture &g
             success = false;
         }
         // Load texts on screen
-        if(!Start_game.load_from_rendered_text("Press S to play game", textColor, gRenderer, gFont))
-        {
-            cout << "Unable to render start game texture!" << endl;
-            success = false;
-        }
         if(!game_over.load_from_rendered_text("GAME OVER!", textColor, gRenderer, gFont))
         {
             cout << "Unable to render game over texture!" << endl;
             success = false;
         }
-        if(!play_again.load_from_rendered_text("To play again, press R", textColor, gRenderer, gFont))
+        if(!play_again.load_from_rendered_text("Press R to play again", textColor, gRenderer, gFont))
         {
             cout << "Unable to render play again texture!" << endl;
             success = false;
         }
-        if(!exit_game.load_from_rendered_text("To exit the game, press ESC", textColor, gRenderer, gFont))
+        if(!exit_game.load_from_rendered_text("Press Esc to quit", textColor, gRenderer, gFont))
         {
             cout << "Unable to render exit game texture!" << endl;
             success = false;
         }
+
     }
     // Load music
     gMusic = Mix_LoadMUS("music\\mission-imposible.mp3");
@@ -196,9 +218,9 @@ bool loadMedia(LTexture &gPlayer_jump, LTexture &gPlayer_background, LTexture &g
 }
 
 void close(LTexture &gDino_jump, LTexture &gDino_background, LTexture &gThreat1, LTexture &gThreat2,
-           LTexture &gPause, LTexture &gResume, LTexture &gScore, LTexture &Start_game, LTexture &game_over,
-           LTexture &play_again, LTexture &exit_game, Mix_Music *&gMusic, Mix_Chunk *&gjump, Mix_Chunk *&gdeath, TTF_Font *&gFont,
-           LTexture &current_score, SDL_Window *&gWindow, SDL_Renderer* &gRenderer, LTexture &gDino_ground, LTexture &gHiscore)
+           LTexture &gPause, LTexture &gResume, LTexture &gScore, LTexture &game_over, LTexture &play_again,
+           LTexture &exit_game, Mix_Music *&gMusic, Mix_Chunk *&gjump, Mix_Chunk *&gdeath, TTF_Font *&gFont, LTexture &current_score, SDL_Window *&gWindow,
+           SDL_Renderer* &gRenderer, LTexture &gDino_ground, LTexture &gHiscore, LTexture &gRocket1, LTexture &gRocket2, LTexture &gWarning, LTexture &how_to_play)
 {
     gDino_jump.free();
     gDino_ground.free();
@@ -210,10 +232,13 @@ void close(LTexture &gDino_jump, LTexture &gDino_background, LTexture &gThreat1,
     gResume.free();
     gThreat1.free();
     gThreat2.free();
-    Start_game.free();
+    gRocket1.free();
+    gRocket2.free();
+    gWarning.free();
     game_over.free();
     play_again.free();
     exit_game.free();
+    how_to_play.free();
 
     TTF_CloseFont(gFont);
     gFont = NULL;

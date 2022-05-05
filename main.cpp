@@ -5,7 +5,7 @@
 #include"Threats.h"
 #include"SDL_utilities.h"
 
-const char *WINDOW_TITLE = "Snowball-Adventure";
+const char *WINDOW_TITLE = "Dino - Run";
 
 // Font and text color
 TTF_Font *gFont = NULL;
@@ -20,12 +20,14 @@ Mix_Chunk *gdeath = NULL;
 // Images
 LTexture gPlayer_jump, gPlayer_background;
 LTexture gThreat1, gThreat2;
+LTexture gRocket1, gRocket2, gWarning;
 LTexture gPause, gResume;
+LTexture how_to_play;
 
 // Texts on screen
 LTexture gScore, current_score;
 LTexture gHiscore, hi_score;
-LTexture Start_game;
+
 LTexture game_over;
 LTexture play_again;
 LTexture exit_game;
@@ -40,11 +42,15 @@ SDL_Rect player_rect;
 int frame_width;
 
 Character character; // Character
-Threat obstacle1, obstacle2; // Threats
+Threat obstacle1, obstacle2;
+Threat rocket1, rocket2;
 
 LTimer timer; // Score
 SDL_Rect threat1; // Threat1's location after each game loop
 SDL_Rect threat2; // Threat2's location after each game loop
+SDL_Rect rocket_1;
+SDL_Rect rocket_2;
+
 stringstream timeText;
 
 // Game functions
@@ -60,7 +66,7 @@ ifstream input;
 ofstream output;
 int best_score;
 
-// Background aniamtion
+// Background animation
 int scrolling_offset = 0;
 
 int main(int argc, char* argv[])
@@ -77,8 +83,8 @@ int main(int argc, char* argv[])
     }
     else
     {
-        if(!loadMedia(gPlayer_jump, gPlayer_background, gThreat1, gThreat2, gPause, gResume, gScore, Start_game, game_over, play_again
-                      , exit_game, gMusic, gjump, gdeath, gFont, gRenderer, gPlayer_ground, player_rect, frame_width, gHiscore))
+        if(!loadMedia(gPlayer_jump, gPlayer_background, gThreat1, gThreat2, gPause, gResume, gScore, game_over, play_again
+                      , exit_game, gMusic, gjump, gdeath, gFont, gRenderer, gPlayer_ground, player_rect, frame_width, gHiscore, gRocket1, gRocket2, gWarning, how_to_play))
         {
             cout << "Failed to load media!" << endl;
         }
@@ -87,10 +93,11 @@ int main(int argc, char* argv[])
             gameLoop(e, gRenderer, player_position, player_rect, frame_width, frame);
         }
     }
-    close(gPlayer_jump, gPlayer_background, gThreat1, gThreat2, gPause, gResume, gScore, Start_game, game_over, play_again, exit_game
-          , gMusic, gjump, gdeath, gFont, current_score, gWindow, gRenderer, gPlayer_ground, gHiscore);
+    close(gPlayer_jump, gPlayer_background, gThreat1, gThreat2, gPause, gResume, gScore, game_over, play_again, exit_game
+          , gMusic, gjump, gdeath, gFont, current_score, gWindow, gRenderer, gPlayer_ground, gHiscore, gRocket1, gRocket2, gWarning, how_to_play);
     return 0;
 }
+
 void gameLoop(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &player_position, SDL_Rect &player_rect, int &frame_width, int &frame)
 {
     while(!is_exit)
@@ -102,6 +109,7 @@ void gameLoop(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &player_position, 
         SDL_RenderPresent(gRenderer);
     }
 }
+
 void handle_keyboard_events(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &player_position, SDL_Rect &player_rect, int &frame_width, int &frame)
 {
     while(SDL_PollEvent(&e) != 0)
@@ -110,7 +118,9 @@ void handle_keyboard_events(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &pla
         else if(e.type == SDL_KEYDOWN && e.key.repeat == 0)
         {
             if(e.key.keysym.sym == SDLK_ESCAPE) is_exit = true;
-            else if(e.key.keysym.sym == SDLK_s) is_start_game = true;
+            else if(e.key.keysym.sym == SDLK_s){
+                is_start_game = true;
+            }
             if(is_start_game && !is_game_over)
             {
                 if(!is_music_play)
@@ -141,6 +151,8 @@ void handle_keyboard_events(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &pla
                     character.pause(e);
                     obstacle1.pause(e);
                     obstacle2.pause(e);
+                    rocket1.pause(e);
+                    rocket2.pause(e);
 
                     // pause/resume timer
                     if( timer.isPaused() ) timer.unpause();
@@ -165,6 +177,8 @@ void playAgain(SDL_Event e, SDL_Renderer* &gRenderer, SDL_Rect &player_position,
         character.reset();
         obstacle1.reset();
         obstacle2.reset();
+        rocket1.reset();
+        rocket2.reset();
 
         timer.stop();
         // play again
@@ -196,7 +210,7 @@ void render_before_and_while_play(SDL_Renderer* &gRenderer, SDL_Rect &player_pos
         {
             output.open("best_score.txt");
             best_score = timer.getTicks()/300;
-            output.seekp(0); // shift pointer to the beginning
+            output.seekp(0); // shift pointer to the beginning to rewrite the high score
             output << best_score;
             output.close();
         }
@@ -229,13 +243,13 @@ void render_before_and_while_play(SDL_Renderer* &gRenderer, SDL_Rect &player_pos
     gPlayer_background.render(scrolling_offset + gPlayer_background.getWidth(), 0, gRenderer);
     obstacle1.render_threat_1(gThreat1, gRenderer);
     obstacle2.render_threat_2(gThreat2, gRenderer);
+    rocket1.render_rocket_1(gRocket1, gWarning, gRenderer);
+    rocket2.render_rocket_2(gRocket2, gWarning, gRenderer);
+
 
     // Render before game
-    if(!is_start_game)
-    {
-        Start_game.render(300, 150, gRenderer);
-        exit_game.render(300, 180, gRenderer);
-        character.render_when_jump(gPlayer_jump, gRenderer);
+    if(!is_start_game){
+        how_to_play.render(0,0,gRenderer);
     }
 
     // Render while playing
@@ -248,6 +262,9 @@ void render_before_and_while_play(SDL_Renderer* &gRenderer, SDL_Rect &player_pos
         {
             obstacle1.threat_move();
             obstacle2.threat_move();
+            rocket1.threat_move();
+            rocket2.threat_move();
+
             if(is_pause) gPause.render(10, 10, gRenderer);
             else gResume.render(10, 10, gRenderer);
 
@@ -264,7 +281,8 @@ void render_before_and_while_play(SDL_Renderer* &gRenderer, SDL_Rect &player_pos
 void render_gameover(SDL_Renderer* &gRenderer)
 {
     // Check collision
-    if((character.check_collision(threat1) || character.check_collision(threat2)) && !is_game_over)
+    if((character.check_collision(threat1) || character.check_collision(threat2) || character.check_collision(rocket_1)
+        || character.check_collision(rocket_2)) && !is_game_over)
     {
         Mix_PlayChannel(-1, gdeath, 0);
         is_game_over = true;
@@ -273,9 +291,9 @@ void render_gameover(SDL_Renderer* &gRenderer)
     if(is_game_over)
     {
         // Render text
-        game_over.render(320, 140, gRenderer);
-        play_again.render(300,160, gRenderer);
-        exit_game.render(300, 180, gRenderer);
+        game_over.render(320, 100, gRenderer);
+        play_again.render(300,120, gRenderer);
+        exit_game.render(300, 140, gRenderer);
 
         //stop music
         if(Mix_PausedMusic() != 1) Mix_PauseMusic();
@@ -284,6 +302,9 @@ void render_gameover(SDL_Renderer* &gRenderer)
         character.gameOver();
         obstacle1.gameOver();
         obstacle2.gameOver();
+        rocket1.gameOver();
+        rocket2.gameOver();
+
         timer.gameOver();
     }
 }
@@ -292,8 +313,10 @@ void update_game()
 {
     if(!is_game_over)
     {
-        threat1 = obstacle1.get_obstacle_1_dimension(); // update threat position
+        threat1 = obstacle1.get_obstacle_1_dimension(); // update threats position
         threat2 = obstacle2.get_obstacle_2_dimension();
+        rocket_1 = rocket1.get_rocket_1_dimension();
+        rocket_2 = rocket2.get_rocket_2_dimension();
         character.jump(); // character falls back to ground
     }
 }
